@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>翻車模擬器</title>
+    <link rel="icon" type="image/x-icon" href="Image/flag.ico">
+    <title>美髮翻車模擬器</title>
     <style>
 body {
     font-family: 'Arial', sans-serif;
@@ -19,6 +20,7 @@ body {
 
 h1 {
     margin-top: 20px;
+    font-size: 2em;
 }
 
 #prizeSelector {
@@ -33,6 +35,7 @@ h1 {
 #drawCount {
     display: inline-block;
     margin-bottom: 10px; /* 为了增加一些间距，你可以根据需要调整 */
+    
 }
 
 #prizeImage {
@@ -169,25 +172,57 @@ button:hover {
             align-items: center;
             font-size: 16px;
         }
+#header,
+#drawInfo
+{
+    font-size: 1.5em; /* 設定字體大小為1.5倍 */
+    text-align: center; /* 讓文字置中 */
+    margin: 10px; /* 適度的外邊距 */
+}
+#currentPrize {
+    font-size: 1.2em; /* 設定字體大小為1.5倍 */
+    text-align: center; /* 讓文字置中 */
+    margin: 10px; /* 適度的外邊距 */
+}
+
+#header h1 {
+    margin-top: 20px; /* 保留原本的上邊距 */
+}
+
+#currentPrizeText {
+    margin-top: 10px; /* 保留原本的上邊距 */
+}
 
         
     </style>
 </head>
 <body>
   <div id="overlay"></div>
-<h1>抽獎模擬器</h1>
+<div id="header">
+    <h1>美髮翻車模擬器</h1>
+</div>
+
+<div id="drawInfo">
     <p>已抽獎次數: <span id="drawCount">0</span></p>
-    <p id="currentPrizeText">本次抽到的獎品：(尚未抽到)</p>
-    <img id="prizeImage" src="" alt="當次獎品圖片">
-    <button id="simulateDrawBtn" onclick="simulateDraw()">單次抽獎</button>
-    <button id="resetDrawCountBtn" onclick="resetDrawCount()">重置已抽獎次數</button>
+    <p>總金額: <span id="spentAmount">0</span> 元</p>
+    <p>大約是 <span id="MTAmount">0</span> 台曲面螢幕</p>
+    
+</div>
+
+<div id="currentPrize">
+    <p id="currentPrizeText">本次抽到的髮型：(尚未抽獎)</p>
+</div>
+
+    <img id="prizeImage" src="Image/flag.ico" alt="當次獎品圖片">
+    <button id="simulateDrawBtn" onclick="simulateDraw()">單抽</button>
+    <button id="resetDrawCountBtn" onclick="resetDrawCount()">重置</button>
     <button id="tapButton">拍桌</button>
 
 
 
 
 <div id="prizeSelector">
-    <label for="prizeDropdown">選擇獎品：</label>
+    <label for="prizeDropdown">選擇髮型：</label>
     <select id="prizeDropdown" onchange="updatePrizeImageInDropdown()">
         <option value="hair1" data-image="image/hair1.png">黑色閃亮節慶髮型</option>
         <option value="hair2" data-image="image/hair2.png">黑色露比髮型</option>
@@ -203,7 +238,7 @@ button:hover {
         <option value="style8" data-image="image/style8.png">黑色蘋果短髮造型</option>
         <!-- 可以繼續加入其他獎品選項 -->
     </select>
-    <button onclick="simulateSpecificPrize()">模擬指定獎品</button>
+    <button onclick="simulateSpecificPrize()">抽到中</button>
 </div>
 
 
@@ -241,6 +276,7 @@ button:hover {
 
     function resetDrawCount() {
         drawCount = 0;
+        updateDrawCountAndAmount();
         document.getElementById('drawCount').textContent = drawCount;
 
         // 清空抽獎紀錄
@@ -250,17 +286,18 @@ button:hover {
 
 function simulateDraw() {
     drawCount++;
+    updateDrawCountAndAmount();
     document.getElementById('drawCount').textContent = drawCount;
 
     const prize = getRandomPrize();
     const prizeDetails = getPrizeDetails(prize);
 
-    const result = `單次抽獎，抽到 ${prizeDetails.name}`;
+    const result = `單抽，抽到了 ${prizeDetails.name}`;
     logDrawResult(result);
     updatePrizeImage(prizeDetails.image);
 
     // 顯示本次抽到的獎品
-    document.getElementById('currentPrizeText').textContent = `本次抽到的獎品：${prizeDetails.name}`;
+    document.getElementById('currentPrizeText').textContent = `本次抽到的髮型：${prizeDetails.name}`;
 }
 
 
@@ -272,6 +309,7 @@ function simulateDraw() {
     const savedDrawsNeeded = drawsNeeded;
 
     drawCount += drawsNeeded;
+    updateDrawCountAndAmount();
     document.getElementById('drawCount').textContent = drawCount;
 
     showPreviousDrawLog(savedDrawsNeeded);
@@ -280,13 +318,13 @@ function simulateDraw() {
 
     document.getElementById('modalPrizeImage').src = prizeDetails.image;
     document.getElementById('prizeName').textContent = prizeDetails.name;
-    document.getElementById('drawsNeeded').textContent = `模擬抽到 ${prizeDetails.name} 需要 ${drawsNeeded} 次抽獎`;
+    document.getElementById('drawsNeeded').textContent = `本次為了抽到 ${prizeDetails.name} 使用了 ${drawsNeeded} 張皇家美髮券，總共花了 ${drawsNeeded * 60} 元，大約是${(drawsNeeded * 60/12000).toFixed(2)}台曲面螢幕`;
 
-    document.getElementById('currentPrizeText').textContent = `本次抽到的獎品：${prizeDetails.name}`;    
+    document.getElementById('currentPrizeText').textContent = `本次抽到的髮型：${prizeDetails.name}`;    
         
     openModal();
 
-    const result = `模擬抽到 ${prizeDetails.name}，抽獎次數: ${drawsNeeded}`;
+    const result = `本次為了抽到 ${prizeDetails.name}，使用了 ${drawsNeeded} 張皇家美髮券，總共花了 ${drawsNeeded * 60} 元，大約是${(drawsNeeded * 60/12000).toFixed(2)}台曲面螢幕`;
     logDrawResult(result);
     updatePrizeImage(prizeDetails.image);
         
@@ -405,12 +443,21 @@ function getPreviousDrawLog(drawsNeeded) {
     for (let i = 0; i < drawsNeeded -1; i++) {
         const randomPrize = getRandomPrize();
         const prizeDetails = getPrizeDetails(randomPrize);
-        previousLog.push(`單次抽獎，抽到 ${prizeDetails.name}`);
+        previousLog.push(`途中抽到了 ${prizeDetails.name}`);
     }
 
     return previousLog;
 }
-
+function updateDrawCountAndAmount() {
+    document.getElementById('drawCount').textContent = drawCount;
+    const spentAmount = drawCount * 60;
+    const MTAmount = (drawCount * 60 / 12000).toFixed(2);
+    document.getElementById('spentAmount').textContent = spentAmount;
+    
+    document.getElementById('MTAmount').textContent = MTAmount;
+}
+    
+    
 document.addEventListener("DOMContentLoaded", function () {
     const tapButton = document.getElementById('tapButton');
 
