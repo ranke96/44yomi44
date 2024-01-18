@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻車模擬器</title>
+    <style>
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://pbs.twimg.com/media/Fm7lifBaUAELwt2?format=png&name=small');
+    background-size: cover;
+    background-position: center center; /* 中央置中 */
+    background-attachment: fixed;
+    color: white;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+#prizeSelector {
+    margin-top: 20px;
+}
+
+#prizeDropdown {
+    font-size: 16px;
+    padding: 8px;
+}
+
+#drawCount {
+    display: inline-block;
+    margin-bottom: 10px; /* 为了增加一些间距，你可以根据需要调整 */
+}
+
+#prizeImage {
+    max-width: 100px;
+    max-height: 100px;
+    margin-top: 10px;
+    display: block; /* 让图片居中显示 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#simulateDrawBtn {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#log {
+    margin-top: 20px;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#myModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.7); /* 70% 透明度的黑色背景 */
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+      /* 模擬抽獎按鈕樣式 */
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 重置次數按鈕樣式 */
+#resetDrawCountBtn {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#resetDrawCountBtn:hover {
+    background-color: #d32f2f;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 50% 透明度的黑色背景 */
+    z-index: -1; /* 確保不會影響其他元素 */
+}
+        
+#log {
+    margin-top: 20px;
+    text-align: left;
+    width: 600px; /* 修改這裡為需要的寬度，或使用其他適當的寬度值 */
+    max-height: 400px; /* 修改這裡為需要的最大高度值 */
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto; /* 加入這行以顯示垂直卷軸 */
+}
+        #tapButton {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        
+    </style>
+</head>
+<body>
+  <div id="overlay"></div>
+<h1>抽獎模擬器</h1>
+    <p>已抽獎次數: <span id="drawCount">0</span></p>
+    <p id="currentPrizeText">本次抽到的獎品：(尚未抽到)</p>
+    <img id="prizeImage" src="" alt="當次獎品圖片">
+    <button id="simulateDrawBtn" onclick="simulateDraw()">單次抽獎</button>
+    <button id="resetDrawCountBtn" onclick="resetDrawCount()">重置已抽獎次數</button>
+    <button id="tapButton">拍桌</button>
+
+
+
+
+<div id="prizeSelector">
+    <label for="prizeDropdown">選擇獎品：</label>
+    <select id="prizeDropdown" onchange="updatePrizeImageInDropdown()">
+        <option value="hair1" data-image="image/hair1.png">黑色閃亮節慶髮型</option>
+        <option value="hair2" data-image="image/hair2.png">黑色露比髮型</option>
+        <option value="hair3" data-image="image/hair3.png">黑色旋律髮型</option>
+        <option value="hair4" data-image="image/hair4.png">黑色喵喵髮型</option>
+        <option value="style1" data-image="image/style1.png">黑色蝴蝶花造型</option>
+        <option value="style2" data-image="image/style2.png">黑色綿羊耳造型</option>
+        <option value="style3" data-image="image/style3.png">黑色淘氣鬼髮型</option>
+        <option value="style4" data-image="image/style4.png">黑色糖果頭</option>
+        <option value="style5" data-image="image/style5.png">黑色賽倫誘惑造型</option>
+        <option value="style6" data-image="image/style6.png">黑色繽紛髮尾造型</option>
+        <option value="style7" data-image="image/style7.png">黑色清湯掛麵造型</option>
+        <option value="style8" data-image="image/style8.png">黑色蘋果短髮造型</option>
+        <!-- 可以繼續加入其他獎品選項 -->
+    </select>
+    <button onclick="simulateSpecificPrize()">模擬指定獎品</button>
+</div>
+
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="prizeDetails">
+            <img id="modalPrizeImage" src="" alt="獎品圖片">
+            <div>
+                <p id="prizeName"></p>
+                <p id="drawsNeeded"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div id="log">
+        <h2>抽獎紀錄</h2>
+        <ul id="drawLog"></ul>
+    </div>
+
+<script>
+    function updatePrizeImageInDropdown() {
+    const dropdown = document.getElementById('prizeDropdown');
+    const selectedOption = dropdown.options[dropdown.selectedIndex];
+    const selectedImage = selectedOption.getAttribute('data-image');
+
+    updatePrizeImage(selectedImage);
+}
+
+    
+    let drawCount = 0;
+
+    function resetDrawCount() {
+        drawCount = 0;
+        document.getElementById('drawCount').textContent = drawCount;
+
+        // 清空抽獎紀錄
+        const drawLog = document.getElementById('drawLog');
+        drawLog.innerHTML = '';
+    }
+
+function simulateDraw() {
+    drawCount++;
+    document.getElementById('drawCount').textContent = drawCount;
+
+    const prize = getRandomPrize();
+    const prizeDetails = getPrizeDetails(prize);
+
+    const result = `單次抽獎，抽到 ${prizeDetails.name}`;
+    logDrawResult(result);
+    updatePrizeImage(prizeDetails.image);
+
+    // 顯示本次抽到的獎品
+    document.getElementById('currentPrizeText').textContent = `本次抽到的獎品：${prizeDetails.name}`;
+}
+
+
+    function simulateSpecificPrize() {
+    const selectedPrize = document.getElementById('prizeDropdown').value;
+    let drawsNeeded = simulateSpecificPrizeDraws(selectedPrize);
+
+    // 保存模擬指定獎品的抽獎次數，以便在 getPreviousDrawLog 中使用
+    const savedDrawsNeeded = drawsNeeded;
+
+    drawCount += drawsNeeded;
+    document.getElementById('drawCount').textContent = drawCount;
+
+    showPreviousDrawLog(savedDrawsNeeded);
+
+    const prizeDetails = getPrizeDetails(selectedPrize);
+
+    document.getElementById('modalPrizeImage').src = prizeDetails.image;
+    document.getElementById('prizeName').textContent = prizeDetails.name;
+    document.getElementById('drawsNeeded').textContent = `模擬抽到 ${prizeDetails.name} 需要 ${drawsNeeded} 次抽獎`;
+
+    document.getElementById('currentPrizeText').textContent = `本次抽到的獎品：${prizeDetails.name}`;    
+        
+    openModal();
+
+    const result = `模擬抽到 ${prizeDetails.name}，抽獎次數: ${drawsNeeded}`;
+    logDrawResult(result);
+    updatePrizeImage(prizeDetails.image);
+        
+}
+function updatePrizeImage(imageSrc) {
+    const prizeImageElement = document.getElementById('prizeImage');
+    prizeImageElement.src = imageSrc;
+}
+
+    function simulateSpecificPrizeDraws(selectedPrize) {
+        // 模擬指定獎品的抽獎次數，這裡根據實際情況進行修改
+        const specificPrizeProbabilities = {
+            'hair1': 0.75,
+            'hair2': 0.75,
+            'hair3': 0.75,
+            'hair4': 0.75,
+            'style1': 7.50,
+            'style2': 7.50,
+            'style3': 7.50,
+            'style4': 7.50,
+            'style5': 16.75,
+            'style6': 16.75,
+            'style7': 16.75,
+            'style8': 16.75,
+        };
+
+        let drawsNeeded = 0;
+        const targetProbability = specificPrizeProbabilities[selectedPrize];
+        while (Math.random() > targetProbability / 100.0) {
+            drawsNeeded++;
+        }
+
+        return drawsNeeded;
+    }
+
+    function logDrawResult(result) {
+        const drawLog = document.getElementById('drawLog');
+        const listItem = document.createElement('li');
+        listItem.textContent = result;
+        drawLog.insertBefore(listItem, drawLog.firstChild);
+
+        if (drawLog.children.length > 100) {
+            drawLog.removeChild(drawLog.lastChild);
+        }
+    }
+
+    function getRandomPrize() {
+    // 使用與模擬指定獎品相同的機率分佈
+    const availablePrizes = ['hair1', 'hair2', 'hair3', 'hair4', 'style1', 'style2', 'style3', 'style4', 'style5', 'style6', 'style7', 'style8'];
+    
+    const probabilities = {
+        'hair1': 0.75,
+        'hair2': 0.75,
+        'hair3': 0.75,
+        'hair4': 0.75,
+        'style1': 7.50,
+        'style2': 7.50,
+        'style3': 7.50,
+        'style4': 7.50,
+        'style5': 16.75,
+        'style6': 16.75,
+        'style7': 16.75,
+        'style8': 16.75,
+    };
+
+    let cumulativeProbability = 0;
+    const randomValue = Math.random() * 100;
+
+    for (const prize of availablePrizes) {
+        cumulativeProbability += probabilities[prize];
+        if (randomValue <= cumulativeProbability) {
+            return prize;
+        }
+    }
+
+    // 如果出現意外，默認返回第一個獎品
+    return availablePrizes[0];
+}
+
+    function getPrizeDetails(prize) {
+        const prizeDetails = {
+            'hair1': { name: '黑色閃亮節慶髮型', image: 'image/hair1.png' },
+            'hair2': { name: '黑色露比髮型', image: 'image/hair2.png' },
+            'hair3': { name: '黑色旋律髮型', image: 'image/hair3.png' },
+            'hair4': { name: '黑色喵喵髮型', image: 'image/hair4.png' },
+            'style1': { name: '黑色蝴蝶花造型', image: 'image/style1.png' },
+            'style2': { name: '黑色綿羊耳造型', image: 'image/style2.png' },
+            'style3': { name: '黑色淘氣鬼髮型', image: 'image/style3.png' },
+            'style4': { name: '黑色糖果頭', image: 'image/style4.png' },
+            'style5': { name: '黑色賽倫誘惑造型', image: 'image/style5.png' },
+            'style6': { name: '黑色繽紛髮尾造型', image: 'image/style6.png' },
+            'style7': { name: '黑色清湯掛麵造型', image: 'image/style7.png' },
+            'style8': { name: '黑色蘋果短髮造型', image: 'image/style8.png' },
+
+        };
+
+        return prizeDetails[prize];
+    }
+
+function showPreviousDrawLog(drawsNeeded) {
+    const previousLog = getPreviousDrawLog(drawsNeeded);
+    if (previousLog.length > 0) {
+        const drawLog = document.getElementById('drawLog');
+        for (let i = 0; i < previousLog.length; i++) {
+            const listItem = document.createElement('li');
+            listItem.textContent = previousLog[i];
+            drawLog.insertBefore(listItem, drawLog.firstChild);
+        }
+    }
+}
+
+function getPreviousDrawLog(drawsNeeded) {
+    const previousLog = [];
+
+    // 進行 drawsNeeded 次單次抽獎，並將結果添加到 previousLog 中
+    for (let i = 0; i < drawsNeeded -1; i++) {
+        const randomPrize = getRandomPrize();
+        const prizeDetails = getPrizeDetails(randomPrize);
+        previousLog.push(`單次抽獎，抽到 ${prizeDetails.name}`);
+    }
+
+    return previousLog;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const tapButton = document.getElementById('tapButton');
+
+    // 定義多個音效路徑
+    const soundPaths = [
+        'sound/tap0.wav',
+        'sound/tap1.wav',
+        'sound/tap2.wav',
+        'sound/tap3.wav',
+        // 添加更多音效路徑
+    ];
+
+    // 按鈕點擊時處理
+    tapButton.addEventListener('click', function () {
+        playTapSound(); // 播放音效
+    });
+
+    // 播放音效的函數
+    function playTapSound() {
+        // 隨機選擇一個音效
+        const randomIndex = Math.floor(Math.random() * soundPaths.length);
+        const randomSoundPath = soundPaths[randomIndex];
+
+        // 播放選擇的音效
+        const audio = new Audio(randomSoundPath);
+        audio.play();
+    }
+});
+
+
+
+    function openModal() {
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+
+    // 在 modal 開啟時，點擊 modal 外部區域可關閉 modal
+    window.onclick = function (event) {
+        const modal = document.getElementById('myModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
