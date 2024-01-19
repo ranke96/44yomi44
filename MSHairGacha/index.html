@@ -301,7 +301,7 @@ function simulateDraw() {
 }
 
 
-    function simulateSpecificPrize() {
+function simulateSpecificPrize() {
     const selectedPrize = document.getElementById('prizeDropdown').value;
     let drawsNeeded = simulateSpecificPrizeDraws(selectedPrize);
 
@@ -312,9 +312,10 @@ function simulateDraw() {
     updateDrawCountAndAmount();
     document.getElementById('drawCount').textContent = drawCount;
 
-    showPreviousDrawLog(savedDrawsNeeded);
-
     const prizeDetails = getPrizeDetails(selectedPrize);
+
+    // 將當前選定的獎品作為 excludedPrize 傳遞給 getPreviousDrawLog
+    showPreviousDrawLog(savedDrawsNeeded, selectedPrize);
 
     document.getElementById('modalPrizeImage').src = prizeDetails.image;
     document.getElementById('prizeName').textContent = prizeDetails.name;
@@ -327,7 +328,6 @@ function simulateDraw() {
     const result = `本次為了抽到 ${prizeDetails.name}，使用了 ${drawsNeeded} 張皇家美髮券，總共花了 ${drawsNeeded * 60} 元，大約是${(drawsNeeded * 60/12000).toFixed(2)}台曲面螢幕`;
     logDrawResult(result);
     updatePrizeImage(prizeDetails.image);
-        
 }
 function updatePrizeImage(imageSrc) {
     const prizeImageElement = document.getElementById('prizeImage');
@@ -351,7 +351,7 @@ function updatePrizeImage(imageSrc) {
             'style8': 16.75,
         };
 
-        let drawsNeeded = 0;
+        let drawsNeeded = 1;
         const targetProbability = specificPrizeProbabilities[selectedPrize];
         while (Math.random() > targetProbability / 100.0) {
             drawsNeeded++;
@@ -424,8 +424,8 @@ function updatePrizeImage(imageSrc) {
         return prizeDetails[prize];
     }
 
-function showPreviousDrawLog(drawsNeeded) {
-    const previousLog = getPreviousDrawLog(drawsNeeded);
+function showPreviousDrawLog(drawsNeeded, excludedPrize) {
+    const previousLog = getPreviousDrawLog(drawsNeeded, excludedPrize);
     if (previousLog.length > 0) {
         const drawLog = document.getElementById('drawLog');
         for (let i = 0; i < previousLog.length; i++) {
@@ -436,18 +436,23 @@ function showPreviousDrawLog(drawsNeeded) {
     }
 }
 
-function getPreviousDrawLog(drawsNeeded) {
+function getPreviousDrawLog(drawsNeeded, excludedPrize) {
     const previousLog = [];
 
     // 進行 drawsNeeded 次單次抽獎，並將結果添加到 previousLog 中
-    for (let i = 0; i < drawsNeeded -1; i++) {
-        const randomPrize = getRandomPrize();
+    for (let i = 0; i < drawsNeeded - 1; i++) {
+        let randomPrize;
+        do {
+            randomPrize = getRandomPrize();
+        } while (randomPrize === excludedPrize);
+
         const prizeDetails = getPrizeDetails(randomPrize);
         previousLog.push(`途中抽到了 ${prizeDetails.name}`);
     }
 
     return previousLog;
 }
+
 function updateDrawCountAndAmount() {
     document.getElementById('drawCount').textContent = drawCount;
     const spentAmount = drawCount * 60;
