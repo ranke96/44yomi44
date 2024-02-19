@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夏四夏景：四巳攝影精選</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        /* Header styles */
+        header {
+            background-color: #df5147;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999; /* Ensure the header is on top */
+        }
+        /* Footer styles */
+        footer {
+            background-color: #df5147;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 999; /* Ensure the footer is on top */
+        }
+        /* Main container styles */
+        .container {
+            display: flex;
+        }
+        /* Sidebar styles */
+        .sidebar {
+    background-color: #f2f2f2;
+    width: 500px; /* 固定寬度為 500px */
+    padding: 20px;
+    position: fixed;
+    top: 100px; /* Header 的高度 */
+    bottom: 20px; /* Footer 的高度 */
+    overflow-y: auto;
+    z-index: 99;
+}
+        .sidebar h2,
+        .sidebar p {
+            margin-top: 20px; /* Adjust the margin as needed */
+        }
+        .sidebar img {
+    margin-top: 100px; /* 調整這個數值以適應您的需求 */
+}
+        /* Gallery styles */
+        .gallery-container {
+    margin-left: 560px; /* 500px 的 sidebar + 20px 的 margin */
+    padding-top: 150px; /* Header 的高度 */
+    padding-bottom: 20px; /* Footer 的高度 */
+}
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+        .gallery li {
+            margin: 10px;
+        }
+        .gallery img {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>夏四夏景：完蛋！我被失焦包圍了 攝影精選</h1>
+</header>
+
+<div class="container">
+    <div class="sidebar">
+        <img src="image/44.jpg" alt="攝影師照片" style="max-width: 100%;">
+        <h1>四巳Yomi</h1>
+        <h2>個人簡介</h2>
+        <p>來自陰間的攝影界的傳奇人物，四巳Yomi。<br><br>這位來自陰間的攝影大師以其獨特的技巧和風格享譽盛名。四巳擅長利用刻意失焦的技巧，將模糊與清晰相融合，營造出迷人而神秘的影像。她的作品猶如一幅幅來自夢境的畫面，引領觀眾進入一個超現實的世界。<br><br>
+
+四巳被譽為陰間最知名的攝影師之一。她的作品不僅僅是照片，更像是藝術品，深深觸動著人們的心靈。曾有人評價說，四巳的作品仿佛能夠讓人們看見生死交織的美感，感受到永恆的存在。<br><br>
+
+她的才華不止於此，她在「興奮到模糊拍照大賽」中更是一枝獨秀，屢獲殊榮。不只一次榮獲該大賽的冠軍，成為眾人矚目的焦點。這些榮譽不僅是對她個人才華的肯定，更是對她獨特攝影風格的高度讚揚。<br><br>
+
+四巳的作品永遠都在探索著視覺與心靈之間的連結，讓人們對生命、死亡和存在的意義有了全新的思考。她的攝影作品超越了時空的界限，成為了永恆的藝術之美。無論是在陰間還是陽間，四巳的名字將永遠被銘記在攝影史的光輝頁面上。<br><br>她的才華不僅在攝影領域，四巳同時也是陰間知名白米品牌「四巳優米」的創辦人之一，該品牌以高品質的白米而聞名於世。除了攝影，四巳對於生活的熱情也體現在了經營事業上。</p>
+    </div>
+
+    <div class="gallery-container">
+        <ul class="gallery">
+<li><a href="image/image1.jpg" data-fancybox="gallery" data-caption="Image 1"><img src="image/image1.jpg" alt="Image 1"></a></li>
+<li><a href="image/image2.jpg" data-fancybox="gallery" data-caption="Image 2"><img src="image/image2.jpg" alt="Image 2"></a></li>
+<li><a href="image/image3.jpg" data-fancybox="gallery" data-caption="Image 3"><img src="image/image3.jpg" alt="Image 3"></a></li>
+<li><a href="image/image4.jpg" data-fancybox="gallery" data-caption="Image 4"><img src="image/image4.jpg" alt="Image 4"></a></li>
+<li><a href="image/image5.jpg" data-fancybox="gallery" data-caption="Image 5"><img src="image/image5.jpg" alt="Image 5"></a></li>
+<li><a href="image/image6.jpg" data-fancybox="gallery" data-caption="Image 6"><img src="image/image6.jpg" alt="Image 6"></a></li>
+<li><a href="image/image7.jpg" data-fancybox="gallery" data-caption="Image 7"><img src="image/image7.jpg" alt="Image 7"></a></li>
+<li><a href="image/image8.jpg" data-fancybox="gallery" data-caption="Image 8"><img src="image/image8.jpg" alt="Image 8"></a></li>
+<li><a href="image/image9.jpg" data-fancybox="gallery" data-caption="Image 9"><img src="image/image9.jpg" alt="Image 9"></a></li>
+<li><a href="image/image10.jpg" data-fancybox="gallery" data-caption="Image 10"><img src="image/image10.jpg" alt="Image 10"></a></li>
+<li><a href="image/image11.jpg" data-fancybox="gallery" data-caption="Image 11"><img src="image/image11.jpg" alt="Image 11"></a></li>
+<li><a href="image/image12.jpg" data-fancybox="gallery" data-caption="Image 12"><img src="image/image12.jpg" alt="Image 12"></a></li>
+<li><a href="image/image13.jpg" data-fancybox="gallery" data-caption="Image 13"><img src="image/image13.jpg" alt="Image 13"></a></li>
+<li><a href="image/image14.jpg" data-fancybox="gallery" data-caption="Image 14"><img src="image/image14.jpg" alt="Image 14"></a></li>
+<li><a href="image/image15.jpg" data-fancybox="gallery" data-caption="Image 15"><img src="image/image15.jpg" alt="Image 15"></a></li>
+<li><a href="image/image16.jpg" data-fancybox="gallery" data-caption="Image 16"><img src="image/image16.jpg" alt="Image 16"></a></li>
+<li><a href="image/image17.jpg" data-fancybox="gallery" data-caption="Image 17"><img src="image/image17.jpg" alt="Image 17"></a></li>
+<li><a href="image/image18.jpg" data-fancybox="gallery" data-caption="Image 18"><img src="image/image18.jpg" alt="Image 18"></a></li>
+<li><a href="image/image19.jpg" data-fancybox="gallery" data-caption="Image 19"><img src="image/image19.jpg" alt="Image 19"></a></li>
+<li><a href="image/image20.jpg" data-fancybox="gallery" data-caption="Image 20"><img src="image/image20.jpg" alt="Image 20"></a></li>
+<li><a href="image/image21.jpg" data-fancybox="gallery" data-caption="Image 21"><img src="image/image21.jpg" alt="Image 21"></a></li>
+<li><a href="image/image22.jpg" data-fancybox="gallery" data-caption="Image 22"><img src="image/image22.jpg" alt="Image 22"></a></li>
+<li><a href="image/image23.jpg" data-fancybox="gallery" data-caption="Image 23"><img src="image/image23.jpg" alt="Image 23"></a></li>
+<li><a href="image/image24.jpg" data-fancybox="gallery" data-caption="Image 24"><img src="image/image24.jpg" alt="Image 24"></a></li>
+<li><a href="image/image25.jpg" data-fancybox="gallery" data-caption="Image 25"><img src="image/image25.jpg" alt="Image 25"></a></li>
+<li><a href="image/image26.jpg" data-fancybox="gallery" data-caption="Image 26"><img src="image/image26.jpg" alt="Image 26"></a></li>
+<li><a href="image/image27.jpg" data-fancybox="gallery" data-caption="Image 27"><img src="image/image27.jpg" alt="Image 27"></a></li>
+<li><a href="image/image28.jpg" data-fancybox="gallery" data-caption="Image 28"><img src="image/image28.jpg" alt="Image 28"></a></li>
+<li><a href="image/image29.jpg" data-fancybox="gallery" data-caption="Image 29"><img src="image/image29.jpg" alt="Image 29"></a></li>
+<li><a href="image/image30.jpg" data-fancybox="gallery" data-caption="Image 30"><img src="image/image30.jpg" alt="Image 30"></a></li>
+<li><a href="image/image31.jpg" data-fancybox="gallery" data-caption="Image 31"><img src="image/image31.jpg" alt="Image 31"></a></li>
+<li><a href="image/image32.jpg" data-fancybox="gallery" data-caption="Image 32"><img src="image/image32.jpg" alt="Image 32"></a></li>
+<li><a href="image/image33.jpg" data-fancybox="gallery" data-caption="Image 33"><img src="image/image33.jpg" alt="Image 33"></a></li>
+<li><a href="image/image34.jpg" data-fancybox="gallery" data-caption="Image 34"><img src="image/image34.jpg" alt="Image 34"></a></li>
+<li><a href="image/image35.jpg" data-fancybox="gallery" data-caption="Image 35"><img src="image/image35.jpg" alt="Image 35"></a></li>
+<li><a href="image/image36.jpg" data-fancybox="gallery" data-caption="Image 36"><img src="image/image36.jpg" alt="Image 36"></a></li>
+
+        </ul>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 四巳攝影精選</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script>
+    // Initialize Fancybox
+    $(document).ready(function() {
+        $('[data-fancybox="gallery"]').fancybox({
+            // Add any options here if needed
+        });
+    });
+</script>
+
+</body>
+</html>
