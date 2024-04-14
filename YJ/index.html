@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>倒數計時器</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-image: url('https://pbs.twimg.com/media/GKBnACWakAAcJDd?format=jpg&name=large');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* 將背景圖片固定在視窗中 */
+}
+h1 {
+  color: #fff3d9; /* 將標題文字顏色設置為fff3d9 */
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#countdown {
+  font-size: 2em;
+  margin-top: 50px;
+  color: #fff3d9; /* 將文字顏色設置為fff3d9 */
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+</style>
+</head>
+<body>
+
+<h1>距離初配信倒數</h1>
+<div id="countdown"></div>
+
+<script>
+  // 目標日期 (2024年5月35日)
+var targetDate = new Date('2024-06-04T21:00:00');
+
+
+  // 更新計時器的函數
+  function updateCountdown() {
+    var now = new Date();
+    var timeDifference = targetDate - now;
+
+    // 計算剩餘的天、小時、分鐘和秒
+    var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+    // 在HTML中顯示計時器
+    document.getElementById('countdown').innerHTML = days + ' 天 ' + hours + ' 小時 ' + minutes + ' 分鐘 ' + seconds + ' 秒';
+  }
+
+  // 每秒更新計時器
+  setInterval(updateCountdown, 1000);
+
+  // 初始執行一次更新計時器，避免網頁載入時的延遲
+  updateCountdown();
+</script>
+
+</body>
+</html>
