@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>时间差计算</title>
+</head>
+<body>
+    <div id="timeDifference"></div>
+
+    <script>
+        function updateTimeDifference() {
+            // 读取 time.json 文件
+            fetch('time.json')
+                .then(response => response.json())
+                .then(data => {
+                    // 获取 time.json 中的时间字符串
+                    const timeString = data.time;
+
+                    // 将时间字符串转换为 Date 对象
+                    const time = new Date(timeString);
+
+                    // 获取 time.json 中的时间戳
+                    const timestamp = time.getTime();
+
+                    // 获取当前时间的时间戳
+                    const currentTime = new Date().getTime();
+
+                    // 计算时间差（毫秒）
+                    let timeDifference = currentTime - timestamp;
+
+                    // 将时间差转换为秒
+                    let secondsDifference = Math.floor(timeDifference / 1000);
+
+                    // 计算天数
+                    const days = Math.floor(secondsDifference / (3600 * 24));
+                    secondsDifference -= days * 3600 * 24;
+
+                    // 计算小时数
+                    const hours = Math.floor(secondsDifference / 3600);
+                    secondsDifference -= hours * 3600;
+
+                    // 计算分钟数
+                    const minutes = Math.floor(secondsDifference / 60);
+                    secondsDifference -= minutes * 60;
+
+                    // 在页面中显示时间差
+                    document.getElementById('timeDifference').innerText = `时间差：${days}天 ${hours}小时 ${minutes}分钟`;
+                })
+                .catch(error => console.error('发生错误：', error));
+        }
+
+        // 每秒更新时间差
+        setInterval(updateTimeDifference, 1000);
+
+        // 页面加载时先更新一次时间差
+        updateTimeDifference();
+    </script>
+</body>
+</html>
