@@ -215,7 +215,7 @@ body.dark-mode .social-icon {
     const randomStreamer = streamerNames[Math.floor(Math.random() * streamerNames.length)];
     const randomViewer = viewerNames[Math.floor(Math.random() * viewerNames.length)];
 
-    fetch('https://mahjong-emrkaif1o-ranke-projects.vercel.app/api/score')
+    fetch('https://vtuber-yomi-api.vercel.app/api/mahjong')
       .then(response => response.json())
       .then(data => {
         const scoreText = `${randomStreamer} ${data.streamer} : ${data.viewer} ${randomViewer}`;
